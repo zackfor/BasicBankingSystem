@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import javax.xml.crypto.Data;
+
 public class BankingSystem {
     public static void main(String[] args) {
         try (Connection conn = DatabaseManager.connect()) {
@@ -75,8 +77,23 @@ public class BankingSystem {
     private static void depositMoney(Connection conn, Scanner scanner) {
         System.out.print("Enter account ID: ");
         int accountId = scanner.nextInt();
+
+        try {
+            Account account = DatabaseManager.getAccountDetails(conn, accountId);
+        if (account != null) {
+            System.out.println("You currently have: " + account.getBalance());
+        } else {
+            System.out.println("Account not found. \nReturning to main menu.");
+            return;
+        }
+        } catch (SQLException e) {
+           System.out.println("Error retrieving details " + e.getMessage());
+        }
+        
+        
         System.out.print("Enter deposit amount: ");
         double amount = scanner.nextDouble();
+        
 
         try {
             DatabaseManager.deposit(conn, accountId, amount);
@@ -89,6 +106,17 @@ public class BankingSystem {
     private static void withdrawMoney(Connection conn, Scanner scanner) {
         System.out.print("Enter account ID: ");
         int accountId = scanner.nextInt();
+        try {
+            Account account = DatabaseManager.getAccountDetails(conn, accountId);
+            if (account != null) {
+                System.out.println("Your balance is " + account.getBalance());
+            } else {
+                System.out.println("Account not found. \n Returning to main menu.");
+                return;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving account details: " + e.getMessage());
+        }
         System.out.print("Enter withdrawal amount: ");
         double amount = scanner.nextDouble();
 

@@ -24,7 +24,7 @@ public class DatabaseManager {
 
     public static void initializeDatabase(Connection conn) {
         try {
-            // Load schema.sql file from resources
+            // Loads schema.sql file from resources
             InputStream inputStream = DatabaseManager.class.getResourceAsStream("/schema.sql");
             if (inputStream != null) {
                 String sql = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);

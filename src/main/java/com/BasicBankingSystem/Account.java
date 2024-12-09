@@ -27,13 +27,5 @@ public class Account {
         return balance;
     }
 
-    // Optional setters (if you want to allow changes after creation)
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
 }
 
